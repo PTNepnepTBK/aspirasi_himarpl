@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
-import Login from './pages/login';
+import Login from './pages/Login';
 import Aspirasidisplay from './pages/aspirasiDisplay';
 import Aspirasi from './pages/aspirasi';
 import UserManagement from './pages/userManagement';
