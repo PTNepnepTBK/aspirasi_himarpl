@@ -18,7 +18,7 @@ const AspirasiTable = ({
 }) => {
   const getImageUrl = (imageName) => {
     return imageName
-      ? `http://localhost:3000/assets/images/ilustrasi_aspirasi/${imageName}`
+      ? `http://192.168.100.102:3000/assets/images/ilustrasi_aspirasi/${imageName}`
       : null;
   };
 
@@ -102,7 +102,7 @@ const AspirasiTable = ({
                       )}
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-white font-medium max-w-xs">
+                      <div className="text-white font-medium break-words">
                         {item.aspirasi}
                       </div>
                     </td>

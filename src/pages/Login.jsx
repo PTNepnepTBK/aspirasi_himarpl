@@ -28,35 +28,48 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (validateForm()) {
       setIsLoading(true);
       try {
-        const response = await fetch('http://localhost:3000/api/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
+        const response = await fetch(
+          "http://192.168.100.102:3000/api/auth/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          }
+        );
 
         const data = await response.json();
 
-        if (response.ok && data.status === 'success') {
-          // Simpan token dan data user ke localStorage
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('user', JSON.stringify(data.user));
-          
-          // Redirect ke halaman aspirasi
-          navigate('/aspirasi');
+        // Deteksi khusus jika rate limit (HTTP 429)
+        if (response.status === 429) {
+          setErrors({
+            general:
+              data.message || "Terlalu banyak permintaan. Coba lagi nanti.",
+          });
+          return; // Stop di sini, jangan proses lebih lanjut
+        }
+
+        // Jika sukses login
+        if (response.ok && data.status === "success") {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+          navigate("/aspirasi");
         } else {
-          setErrors({ 
-            general: data.message || 'Login gagal. Periksa email dan password Anda.' 
+          // Gagal login biasa
+          setErrors({
+            general:
+              data.message || "Login gagal. Periksa email dan password Anda.",
           });
         }
       } catch (error) {
-        console.error('Login error:', error);
-        setErrors({ 
-          general: 'Terjadi kesalahan koneksi. Silakan coba lagi.' 
+        console.error("Login error:", error);
+        setErrors({
+          general: "Terjadi kesalahan koneksi. Silakan coba lagi.",
         });
       } finally {
         setIsLoading(false);
@@ -170,7 +183,7 @@ const Login = () => {
 
       {/* Sticky Footer */}
       <footer className="z-10">
-        <Footer withAnimation={false}/>
+        <Footer withAnimation={false} />
       </footer>
     </div>
   );

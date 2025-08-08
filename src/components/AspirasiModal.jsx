@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import dummyIlustrasi from "../assets/images/ilustrasi_aspirasi2.png";
 
 const AspirasiModal = ({
@@ -36,7 +37,7 @@ const AspirasiModal = ({
       if (!token) return;
 
       const response = await fetch(
-        "http://localhost:3000/api/aspirasi/aspirasimhs",
+        "http://192.168.100.102:3000/api/aspirasi/aspirasimhs",
         {
           method: "GET",
           headers: {
@@ -59,6 +60,8 @@ const AspirasiModal = ({
           id: item.id_aspirasi,
           ilustrasi: dummyIlustrasi,
           aspirasi: item.aspirasi,
+          c_date: item.c_date.slice(0, 10),
+          kategori: item.kategori,
           penulis: item.penulis || "Anonim",
         }));
 
@@ -100,12 +103,14 @@ const AspirasiModal = ({
     setCurrentPage(pageNumber);
   };
 
-  const handleAddAspirasi = (aspirasi, penulis, id_aspirasi) => {
+  const handleAddAspirasi = (aspirasi, penulis, id_aspirasi, kategori) => {
+    const isValidCategory = kategori === "hima" || kategori === "prodi";
     setFormData({
       ...formData,
       aspirasi: aspirasi,
       penulis: penulis,
       id_aspirasi: id_aspirasi,
+      kategori: isValidCategory ? kategori : "prodi",
     });
   };
 
@@ -141,7 +146,7 @@ const AspirasiModal = ({
       }
 
       const response = await fetch(
-        "http://localhost:3000/api/aspirasi/displayaspirasi",
+        "http://192.168.100.102:3000/api/aspirasi/displayaspirasi",
         {
           method: "POST",
           headers: {
@@ -207,13 +212,13 @@ const AspirasiModal = ({
 
   if (!show) return null;
 
-  return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+  return ReactDOM.createPortal(
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[1050] px-4 ">
       <div className="w-full max-w-6xl backdrop-blur-sm bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-8 max-h-[90vh] overflow-y-auto">
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-white">Tambah Aspirasi</h2>
         </div>
-        
+
         {/* Table Section */}
         <div className="mb-6">
           <h3 className="text-lg font-semibold text-white mb-4">
@@ -260,6 +265,12 @@ const AspirasiModal = ({
                             Penulis
                           </th>
                           <th className="px-4 py-3 text-left text-sm font-bold text-white">
+                            Tanggal
+                          </th>
+                          <th className="px-4 py-3 text-left text-sm font-bold text-white">
+                            Kategori
+                          </th>
+                          <th className="px-4 py-3 text-left text-sm font-bold text-white">
                             Aksi
                           </th>
                         </tr>
@@ -271,18 +282,24 @@ const AspirasiModal = ({
                             className={`border-b border-white/10 ${
                               index % 2 === 0 ? "bg-white/5" : "bg-white/10"
                             } ${
-                              formData.id_aspirasi === item.id ? "bg-[#FFE867]/20" : ""
+                              formData.id_aspirasi === item.id
+                                ? "bg-[#FFE867]/20"
+                                : ""
                             }`}
                           >
                             <td className="px-4 py-3">
-                              <div className="text-white font-medium max-w-xs truncate">
+                              <div className="text-white font-medium break-words">
                                 {item.aspirasi}
                               </div>
                             </td>
                             <td className="px-4 py-3">
-                              <div className="text-white">
-                                {item.penulis}
-                              </div>
+                              <div className="text-white">{item.penulis}</div>
+                            </td>
+                            <td className="px-4 py-3">
+                              <div className="text-white">{item.c_date}</div>
+                            </td>
+                            <td className="px-4 py-3">
+                              <div className="text-white">{item.kategori}</div>
                             </td>
                             <td className="px-4 py-3">
                               <button
@@ -290,7 +307,8 @@ const AspirasiModal = ({
                                   handleAddAspirasi(
                                     item.aspirasi,
                                     item.penulis,
-                                    item.id
+                                    item.id,
+                                    item.kategori
                                   )
                                 }
                                 className={`px-3 py-1 rounded-lg text-sm font-semibold transition duration-300 ${
@@ -299,7 +317,9 @@ const AspirasiModal = ({
                                     : "bg-[#FFE867] text-[#10316B] hover:bg-[#e6d258]"
                                 }`}
                               >
-                                {formData.id_aspirasi === item.id ? "Selected" : "Add"}
+                                {formData.id_aspirasi === item.id
+                                  ? "Selected"
+                                  : "Add"}
                               </button>
                             </td>
                           </tr>
@@ -307,7 +327,7 @@ const AspirasiModal = ({
                       </tbody>
                     </table>
                   </div>
-                  
+
                   {/* Pagination */}
                   {totalPages > 1 && (
                     <div className="flex justify-center items-center gap-2 py-4 bg-black/10">
@@ -345,7 +365,7 @@ const AspirasiModal = ({
             </div>
           )}
         </div>
-        
+
         {/* Form Section */}
         <div className="border-t border-white/20 pt-6">
           <h3 className="text-lg font-semibold text-white mb-4">
@@ -411,7 +431,8 @@ const AspirasiModal = ({
                 name="kategori"
                 value={formData.kategori}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 rounded-lg bg-white/20 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#FFE867]"
+                disabled={formData.id_aspirasi && aspirasi.find(item => item.id === formData.id_aspirasi)?.kategori && (aspirasi.find(item => item.id === formData.id_aspirasi)?.kategori === "hima" || aspirasi.find(item => item.id === formData.id_aspirasi)?.kategori === "prodi")}
+                className="w-full px-4 py-2 rounded-lg bg-white/20 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#FFE867] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <option value="prodi" className="bg-[#10316B] text-white">
                   PRODI
@@ -466,7 +487,8 @@ const AspirasiModal = ({
           </form>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

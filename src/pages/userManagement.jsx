@@ -46,7 +46,7 @@ const UserManagement = () => {
       }
 
       const response = await fetch(
-        "http://localhost:3000/api/user/usermanagement",
+        "http://192.168.100.102:3000/api/user/usermanagement",
         {
           method: "GET",
           headers: {
@@ -88,7 +88,7 @@ const UserManagement = () => {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:3000/api/user/usermanagement?id=${userId}`,
+        `http://192.168.100.102:3000/api/user/usermanagement?id=${userId}`,
         {
           method: "DELETE",
           headers: {
@@ -131,7 +131,7 @@ const UserManagement = () => {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:3000/api/user/usermanagement",
+        "http://192.168.100.102:3000/api/user/usermanagement",
         {
           method: "PUT",
           headers: {
@@ -196,7 +196,7 @@ const UserManagement = () => {
         return;
       }
       const response = await fetch(
-        "http://localhost:3000/api/user/usermanagement",
+        "http://192.168.100.102:3000/api/user/usermanagement",
         {
           method: "POST",
           headers: {

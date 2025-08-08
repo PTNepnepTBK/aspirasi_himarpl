@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 
 const ImageUpdateModal = ({
   show,
@@ -11,8 +12,10 @@ const ImageUpdateModal = ({
   onUpdateClick,
   isUpdateMode
 }) => {
-  return (
-    <div className={`fixed inset-0 bg-black/50 flex items-center justify-center z-50 ${show ? "block" : "hidden"}`}>
+  if (!show) return null;
+
+  return ReactDOM.createPortal(
+    <div className={`fixed inset-0 bg-black/50 flex items-center justify-center z-[1050]`}>
       <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
         <div className="text-center">
           <div className="text-blue-500 text-4xl mb-4">🖼️</div>
@@ -73,8 +76,9 @@ const ImageUpdateModal = ({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
-export default ImageUpdateModal; 
+export default ImageUpdateModal;

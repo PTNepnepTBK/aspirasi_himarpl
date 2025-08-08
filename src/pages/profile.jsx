@@ -32,7 +32,7 @@ const Profile = () => {
 
     const fetchProfile = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/user/profile", {
+        const response = await fetch("http://192.168.100.102:3000/api/user/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -65,7 +65,7 @@ const Profile = () => {
   const confirmUpdate = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:3000/api/user/profile", {
+      const response = await fetch("http://192.168.100.102:3000/api/user/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -104,7 +104,7 @@ const Profile = () => {
 
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:3000/api/user/profile", {
+      const response = await fetch("http://192.168.100.102:3000/api/user/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

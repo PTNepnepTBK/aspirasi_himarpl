@@ -7,7 +7,9 @@ const HeroSection = () => {
   const [formData, setFormData] = useState({
     aspirasi: "",
     penulis: "",
+    kategori: "",
   });
+  const [submissionResult, setSubmissionResult] = useState(null);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -23,10 +25,11 @@ const HeroSection = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmissionResult(null); // Reset the result message
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/aspirasi/aspirasimhs",
+        "http://192.168.100.102:3000/api/aspirasi/aspirasimhs",
         {
           method: "POST",
           headers: {
@@ -36,28 +39,46 @@ const HeroSection = () => {
         }
       );
 
+      if (response.status === 429) {
+        setSubmissionResult({
+          success: false,
+          message: "Terlalu banyak permintaan. Silakan coba lagi nanti.",
+        });
+        return;
+      }
+
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Gagal submit:", errorData);
-        alert("Gagal mengirim aspirasi. Coba lagi.");
+        setSubmissionResult({
+          success: false,
+          message: errorData.message || "Gagal mengirim aspirasi. Coba lagi.",
+        });
         return;
       }
 
       const result = await response.json();
-      console.log("Aspirasi berhasil dikirim:", result);
-
-      alert("Aspirasi berhasil dikirim!");
-      setFormData({ aspirasi: "", penulis: "" });
-      setShowModal(false);
+      setSubmissionResult({
+        success: true,
+        message: "Aspirasi berhasil dikirim!",
+      });
+      setFormData({ aspirasi: "", penulis: "", kategori: "" });
     } catch (error) {
       console.error("Error:", error);
-      alert("Terjadi kesalahan. Coba lagi nanti.");
+      setSubmissionResult({
+        success: false,
+        message: "Terjadi kesalahan. Coba lagi nanti.",
+      });
     }
   };
 
   const resetForm = () => {
-    setFormData({ aspirasi: "", penulis: "" });
+    setFormData({ aspirasi: "", penulis: "", kategori: "" });
     setShowModal(false);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSubmissionResult(null); // Reset the result message
   };
 
   return (
@@ -139,20 +160,69 @@ const HeroSection = () => {
                 />
               </div>
 
+              <div>
+                <label className="block text-sm font-bold text-white mb-1">
+                  Kategori{" "}
+                  <span className="text-xs font-normal text-white/60">
+                    (Opsional)
+                  </span>
+                </label>
+                <select
+                  name="kategori"
+                  value={formData.kategori}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 rounded-lg bg-white/20 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#FFE867]"
+                >
+                  <option value="" className="bg-[#10316B] text-white">
+                    Pilih kategori...
+                  </option>
+                  <option value="hima" className="bg-[#10316B] text-white">
+                    HIMA
+                  </option>
+                  <option value="prodi" className="bg-[#10316B] text-white">
+                    Prodi
+                  </option>
+                </select>
+              </div>
+
+              {submissionResult && (
+                <div
+                  className={`p-4 rounded-lg text-center ${
+                    submissionResult.success
+                      ? "bg-green-500 text-white"
+                      : "bg-red-500 text-white"
+                  }`}
+                >
+                  {submissionResult.message}
+                </div>
+              )}
+
               <div className="flex gap-4 pt-4">
-                <button
-                  type="button"
-                  onClick={resetForm}
-                  className="flex-1 py-2 bg-white/20 text-white font-semibold rounded-lg hover:bg-white/30 transition duration-300"
-                >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  className="flex-1 py-2 bg-[#FFE867] text-[#10316B] font-semibold rounded-lg hover:bg-[#e6d258] transition duration-300 shadow-md"
-                >
-                  Kirim
-                </button>
+                {submissionResult?.success ? (
+                  <button
+                    type="button"
+                    onClick={handleCloseModal}
+                    className="w-full py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition duration-300 shadow-md"
+                  >
+                    Selesai
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      onClick={resetForm}
+                      className="flex-1 py-2 bg-white/20 text-white font-semibold rounded-lg hover:bg-white/30 transition duration-300"
+                    >
+                      Batal
+                    </button>
+                    <button
+                      type="submit"
+                      className="flex-1 py-2 bg-[#FFE867] text-[#10316B] font-semibold rounded-lg hover:bg-[#e6d258] transition duration-300 shadow-md"
+                    >
+                      Kirim
+                    </button>
+                  </>
+                )}
               </div>
             </form>
           </div>
