@@ -18,7 +18,7 @@ const AspirasiTable = ({
 }) => {
   const getImageUrl = (imageName) => {
     return imageName
-      ? `http://192.168.100.102:3000/assets/images/ilustrasi_aspirasi/${imageName}`
+      ? `https://iieyqnbtsfzpvetpcyjp.supabase.co/storage/v1/object/public/ilust_aspirasi/${imageName}`
       : null;
   };
 

@@ -94,7 +94,7 @@ const handleConfirmUpdateImage = async () => {
     formData.append('id_dispirasi', selectedItemForImageUpdate.id_dispirasi.toString());
     formData.append('action', 'update_image');
     formData.append('ilustrasi', pendingFile);
-    const response = await fetch("http://192.168.100.102:3000/api/aspirasi/displayaspirasi", {
+    const response = await fetch("http://localhost:3000/api/aspirasi/displayaspirasi", {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -137,7 +137,7 @@ const handleConfirmUpdateImage = async () => {
         return;
       }
 
-      let url = "http://192.168.100.102:3000/api/aspirasi/displayaspirasi";
+      let url = "http://localhost:3000/api/aspirasi/displayaspirasi";
 
       if (search.trim()) {
         url += `?param=${encodeURIComponent(search)}`;
@@ -199,7 +199,7 @@ const handleConfirmUpdateImage = async () => {
       formData.append(action, newValue);
 
       const response = await fetch(
-        "http://192.168.100.102:3000/api/aspirasi/displayaspirasi",
+        "http://localhost:3000/api/aspirasi/displayaspirasi",
         {
           method: "PUT",
           headers: {
@@ -294,7 +294,7 @@ const handleConfirmUpdateImage = async () => {
     setUpdateLoading(itemToDelete.id_dispirasi);
     setShowDeleteConfirm(false);
     try {
-      const response = await fetch(`http://192.168.100.102:3000/api/aspirasi/displayaspirasi?id=${itemToDelete.id_dispirasi}`, {
+      const response = await fetch(`http://localhost:3000/api/aspirasi/displayaspirasi?id=${itemToDelete.id_dispirasi}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -336,7 +336,7 @@ const handleConfirmUpdateImage = async () => {
 
   const getImageUrl = (imageName) => {
     return imageName
-      ? `http://192.168.100.102:3000/assets/images/ilustrasi_aspirasi/${imageName}`
+      ? `https://iieyqnbtsfzpvetpcyjp.supabase.co/storage/v1/object/public/ilust_aspirasi/${imageName}`
       : null;
   };
 

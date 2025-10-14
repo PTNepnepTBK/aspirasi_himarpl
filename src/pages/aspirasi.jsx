@@ -48,7 +48,7 @@ const Aspirasi = () => {
       }
 
       const response = await fetch(
-        "http://192.168.100.102:3000/api/aspirasi/aspirasimhs",
+        "http://localhost:3000/api/aspirasi/aspirasimhs",
         {
           method: "GET",
           headers: {
@@ -123,7 +123,7 @@ const Aspirasi = () => {
       }
 
       const response = await fetch(
-        `http://192.168.100.102:3000/api/aspirasi/aspirasimhs?id=${deletingId}`,
+        `http://localhost:3000/api/aspirasi/aspirasimhs?id=${deletingId}`,
         {
           method: "DELETE",
           headers: {
@@ -214,7 +214,7 @@ const Aspirasi = () => {
 
       for (const id of selectedIds) {
         const response = await fetch(
-          `http://192.168.100.102:3000/api/aspirasi/aspirasimhs?id=${id}`,
+          `http://localhost:3000/api/aspirasi/aspirasimhs?id=${id}`,
           {
             method: "DELETE",
             headers: {

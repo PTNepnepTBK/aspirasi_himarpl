@@ -15,7 +15,7 @@ export default function LandingPage() {
   useEffect(() => {
     const fetchAspirations = async () => {
       try {
-        const response = await fetch("http://192.168.100.102:3000/api/aspirasi/landingpg");
+        const response = await fetch("http://localhost:3000/api/aspirasi/landingpg");
         const data = await response.json();
         if (data.success) {
           setAspirations(data.data);
@@ -34,14 +34,14 @@ export default function LandingPage() {
     ...asp,
     author: asp.penulis || "Anonim",
     content: asp.aspirasi,
-    image: asp.ilustrasi ? `http://192.168.100.102:3000/assets/images/ilustrasi_aspirasi/${asp.ilustrasi}` : null
+    image: asp.ilustrasi ? `https://iieyqnbtsfzpvetpcyjp.supabase.co/storage/v1/object/public/ilust_aspirasi/${asp.ilustrasi}` : null
   }));
 
   const himaAspirations = aspirations.filter(asp => asp.kategori === "hima").map(asp => ({
     ...asp,
     author: asp.penulis || "Anonim",
     content: asp.aspirasi,
-    image: asp.ilustrasi ? `http://192.168.100.102:3000/assets/images/ilustrasi_aspirasi/${asp.ilustrasi}` : null
+    image: asp.ilustrasi ? `https://iieyqnbtsfzpvetpcyjp.supabase.co/storage/v1/object/public/ilust_aspirasi/${asp.ilustrasi}` : null
   }));
 
   return (
