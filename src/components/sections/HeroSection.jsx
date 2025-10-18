@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import aspirasiIlustrasi from "../../assets/images/aspirasi_ilustrasi.png";
 
+const API_URL = import.meta.env.VITE_API_URL ;
+
 const HeroSection = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -29,7 +31,7 @@ const HeroSection = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/aspirasi/aspirasimhs",
+        `${API_URL}/api/aspirasi/aspirasimhs`,
         {
           method: "POST",
           headers: {

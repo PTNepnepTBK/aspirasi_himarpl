@@ -8,6 +8,9 @@ import TentangKamiSection from "../components/sections/TentangKamiSection";
 import Footer from "../components/layout/Footer";
 import { dummyData } from "../data/data";
 
+const API_URL = import.meta.env.VITE_API_URL;
+const STORAGE = import.meta.env.VITE_SUPABASE_STORAGE;
+
 export default function LandingPage() {
   const [aspirations, setAspirations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +18,7 @@ export default function LandingPage() {
   useEffect(() => {
     const fetchAspirations = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/aspirasi/landingpg");
+        const response = await fetch(`${API_URL}/api/aspirasi/landingpg`);
         const data = await response.json();
         if (data.success) {
           setAspirations(data.data);
@@ -34,14 +37,14 @@ export default function LandingPage() {
     ...asp,
     author: asp.penulis || "Anonim",
     content: asp.aspirasi,
-    image: asp.ilustrasi ? `https://iieyqnbtsfzpvetpcyjp.supabase.co/storage/v1/object/public/ilust_aspirasi/${asp.ilustrasi}` : null
+    image: asp.ilustrasi ? `${STORAGE}${asp.ilustrasi}` : null
   }));
 
   const himaAspirations = aspirations.filter(asp => asp.kategori === "hima").map(asp => ({
     ...asp,
     author: asp.penulis || "Anonim",
     content: asp.aspirasi,
-    image: asp.ilustrasi ? `https://iieyqnbtsfzpvetpcyjp.supabase.co/storage/v1/object/public/ilust_aspirasi/${asp.ilustrasi}` : null
+    image: asp.ilustrasi ? `${STORAGE}${asp.ilustrasi}` : null
   }));
 
   return (

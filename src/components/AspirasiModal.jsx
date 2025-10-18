@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import dummyIlustrasi from "../assets/images/ilustrasi_aspirasi2.png";
 
+const API_URL = import.meta.env.VITE_API_URL ;
+
 const AspirasiModal = ({
   show,
   onClose,
@@ -37,7 +39,7 @@ const AspirasiModal = ({
       if (!token) return;
 
       const response = await fetch(
-        "http://localhost:3000/api/aspirasi/aspirasimhs",
+        `${API_URL}/api/aspirasi/aspirasimhs`,
         {
           method: "GET",
           headers: {
@@ -146,7 +148,7 @@ const AspirasiModal = ({
       }
 
       const response = await fetch(
-        "http://localhost:3000/api/aspirasi/displayaspirasi",
+        `${API_URL}/api/aspirasi/displayaspirasi`,
         {
           method: "POST",
           headers: {

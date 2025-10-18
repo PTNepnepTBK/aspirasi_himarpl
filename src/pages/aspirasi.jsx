@@ -7,6 +7,8 @@ import Navbar from "../components/layout/NavbarAdmin";
 import dummyIlustrasi from "../assets/images/ilustrasi_aspirasi2.png";
 import DeleteConfirmationDialog from "../components/DeleteConfirmationDialog";
 
+const API_URL = import.meta.env.VITE_API_URL ;
+
 const Aspirasi = () => {
   const [aspirasi, setAspirasi] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -48,7 +50,7 @@ const Aspirasi = () => {
       }
 
       const response = await fetch(
-        "http://localhost:3000/api/aspirasi/aspirasimhs",
+        `${API_URL}/api/aspirasi/aspirasimhs`,
         {
           method: "GET",
           headers: {
@@ -123,7 +125,7 @@ const Aspirasi = () => {
       }
 
       const response = await fetch(
-        `http://localhost:3000/api/aspirasi/aspirasimhs?id=${deletingId}`,
+        `${API_URL}/api/aspirasi/aspirasimhs?id=${deletingId}`,
         {
           method: "DELETE",
           headers: {
@@ -214,7 +216,7 @@ const Aspirasi = () => {
 
       for (const id of selectedIds) {
         const response = await fetch(
-          `http://localhost:3000/api/aspirasi/aspirasimhs?id=${id}`,
+          `${API_URL}/api/aspirasi/aspirasimhs?id=${id}`,
           {
             method: "DELETE",
             headers: {

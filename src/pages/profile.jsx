@@ -4,6 +4,8 @@ import Navbar from "../components/layout/NavbarAdmin";
 import Footer from "../components/layout/Footer";
 import backgroundRectangel from "../assets/images/rectangle498.png";
 
+const API_URL = import.meta.env.VITE_API_URL ;
+
 const Profile = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -32,7 +34,7 @@ const Profile = () => {
 
     const fetchProfile = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/user/profile", {
+        const response = await fetch(`${API_URL}/api/user/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -65,7 +67,7 @@ const Profile = () => {
   const confirmUpdate = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:3000/api/user/profile", {
+      const response = await fetch(`${API_URL}/api/user/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -104,7 +106,7 @@ const Profile = () => {
 
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:3000/api/user/profile", {
+      const response = await fetch(`${API_URL}/api/user/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

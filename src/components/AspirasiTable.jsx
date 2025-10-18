@@ -1,4 +1,5 @@
 import React from "react";
+const STORAGE = import.meta.env.VITE_SUPABASE_STORAGE ;
 
 const AspirasiTable = ({
   displayAspirasi,
@@ -18,7 +19,9 @@ const AspirasiTable = ({
 }) => {
   const getImageUrl = (imageName) => {
     return imageName
-      ? `https://iieyqnbtsfzpvetpcyjp.supabase.co/storage/v1/object/public/ilust_aspirasi/${imageName}`
+      ? 
+      
+      `${STORAGE}${imageName}`
       : null;
   };
 
@@ -292,4 +295,4 @@ const AspirasiTable = ({
   );
 };
 
-export default AspirasiTable; 
+export default AspirasiTable;

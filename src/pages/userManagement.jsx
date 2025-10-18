@@ -5,6 +5,8 @@ import backgroundRectangel from "../assets/images/rectangle498.png";
 import Footer from "../components/layout/Footer";
 import Navbar from "../components/layout/NavbarAdmin";
 
+const API_URL = import.meta.env.VITE_API_URL ;
+
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -46,7 +48,7 @@ const UserManagement = () => {
       }
 
       const response = await fetch(
-        "http://localhost:3000/api/user/usermanagement",
+        `${API_URL}/api/user/usermanagement`,
         {
           method: "GET",
           headers: {
@@ -88,7 +90,7 @@ const UserManagement = () => {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:3000/api/user/usermanagement?id=${userId}`,
+        `${API_URL}/api/user/usermanagement?id=${userId}`,
         {
           method: "DELETE",
           headers: {
@@ -131,7 +133,7 @@ const UserManagement = () => {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:3000/api/user/usermanagement",
+        `${API_URL}/api/user/usermanagement`,
         {
           method: "PUT",
           headers: {
@@ -196,7 +198,7 @@ const UserManagement = () => {
         return;
       }
       const response = await fetch(
-        "http://localhost:3000/api/user/usermanagement",
+        `${API_URL}/api/user/usermanagement`,
         {
           method: "POST",
           headers: {

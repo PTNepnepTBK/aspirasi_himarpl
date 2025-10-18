@@ -10,7 +10,8 @@ import AspirasiTable from "../components/AspirasiTable";
 import ImageUpdateModal from "../components/ImageUpdateModal";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import DeleteConfirmationDialog from "../components/DeleteConfirmationDialog";
-
+const API_URL = import.meta.env.VITE_API_URL;
+const STORAGE = import.meta.env.VITE_SUPABASE_STORAGE;
 const AspirasiCrud = () => {
   const [showModal, setShowModal] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -94,7 +95,8 @@ const handleConfirmUpdateImage = async () => {
     formData.append('id_dispirasi', selectedItemForImageUpdate.id_dispirasi.toString());
     formData.append('action', 'update_image');
     formData.append('ilustrasi', pendingFile);
-    const response = await fetch("http://localhost:3000/api/aspirasi/displayaspirasi", {
+    
+    const response = await fetch(`${API_URL}/api/aspirasi/displayaspirasi`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -137,7 +139,7 @@ const handleConfirmUpdateImage = async () => {
         return;
       }
 
-      let url = "http://localhost:3000/api/aspirasi/displayaspirasi";
+      let url = `${API_URL}/api/aspirasi/displayaspirasi`;
 
       if (search.trim()) {
         url += `?param=${encodeURIComponent(search)}`;
@@ -199,7 +201,8 @@ const handleConfirmUpdateImage = async () => {
       formData.append(action, newValue);
 
       const response = await fetch(
-        "http://localhost:3000/api/aspirasi/displayaspirasi",
+        
+        `${API_URL}/api/aspirasi/displayaspirasi`,
         {
           method: "PUT",
           headers: {
@@ -294,7 +297,8 @@ const handleConfirmUpdateImage = async () => {
     setUpdateLoading(itemToDelete.id_dispirasi);
     setShowDeleteConfirm(false);
     try {
-      const response = await fetch(`http://localhost:3000/api/aspirasi/displayaspirasi?id=${itemToDelete.id_dispirasi}`, {
+      
+      const response = await fetch(`${API_URL}/api/aspirasi/displayaspirasi?id=${itemToDelete.id_dispirasi}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -336,7 +340,8 @@ const handleConfirmUpdateImage = async () => {
 
   const getImageUrl = (imageName) => {
     return imageName
-      ? `https://iieyqnbtsfzpvetpcyjp.supabase.co/storage/v1/object/public/ilust_aspirasi/${imageName}`
+      ? 
+      `${STORAGE}${imageName}`
       : null;
   };
 

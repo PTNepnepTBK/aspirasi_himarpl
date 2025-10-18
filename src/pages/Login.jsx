@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import logohima from "../assets/images/logohima.png";
 import Footer from "../components/layout/Footer";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
@@ -33,7 +35,7 @@ const Login = () => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          "http://localhost:3000/api/auth/login",
+          `${API_URL}/api/auth/login`,
           {
             method: "POST",
             headers: {
@@ -95,12 +97,12 @@ const Login = () => {
             <h2 className="mt-4 text-2xl font-bold text-white tracking-wide">
               Selamat Datang
             </h2>
-            <p className="text-sm text-gray-200 mt-1">
+            {/* <p className="text-sm text-gray-200 mt-1">
               Belum punya akun?{" "}
               <Link to="/register" className="text-[#FFE867] hover:underline">
                 Daftar sekarang
               </Link>
-            </p>
+            </p> */}
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
